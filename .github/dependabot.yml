@@ -1,9 +1,12 @@
 version: 2
+# New versions must be at least 7 days old before Dependabot proposes them (security updates are not delayed).
 updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     groups:
       npm-minor-patch:
         update-types: [minor, patch]
@@ -14,6 +17,8 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     groups:
       actions-minor-patch:
         update-types: [minor, patch]
@@ -24,6 +29,8 @@ updates:
     directory: "/python"
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     groups:
       pip-minor-patch:
         update-types: [minor, patch]
