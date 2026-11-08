@@ -576,11 +576,8 @@ their labels, and limits.
 
 ## Enterprise
 
-AFKzona Group offers, separately from this open-source project: a hosted
-dashboard of submissions and failures, continuous monitoring across several
-platforms, SSO/SAML, roles, audit evidence packs, a feed of legal and schema
-updates, and support with an SLA. Contact info@afkzonagroup.lt. These are not
-part of this repository.
+MB AFKzona Group offers integration into your systems, custom connectors and
+features, and support agreements. Contact info@afkzonagroup.lt.
 
 ## Contributing
 
