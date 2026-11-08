@@ -1,0 +1,68 @@
+# Runs only on pull requests and by hand (no push triggers, no schedules).
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['22', '24']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - run: npm run build
+      - run: npm pack --dry-run --json > "$RUNNER_TEMP/pack.json"
+      - run: node scripts/check-pack.mjs "$RUNNER_TEMP/pack.json"
+      - run: npm audit --omit=dev
+
+  schema:
+    # Re-extracts the schema facts from the official repository at the pinned
+    # commit and fails if schema/source-rules.json differs.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - run: |
+          commit=$(node -p "require('./schema/source-rules.json').source.commit")
+          fetched=$(node -p "require('./schema/source-rules.json').source.fetched")
+          git clone --filter=blob:none https://github.com/digital-services-act/transparency-database "$RUNNER_TEMP/tdb"
+          git -C "$RUNNER_TEMP/tdb" checkout --detach "$commit"
+          node scripts/extract-schema.mjs "$RUNNER_TEMP/tdb" --fetched "$fetched"
+          git diff --exit-code schema/source-rules.json
+
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.13']
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install mypy==2.4.0
+      - run: python -m mypy
+      - run: PYTHONPATH=src python -m unittest discover -s tests -t .

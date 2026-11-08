@@ -1,0 +1,17 @@
+Rationale
+Copyright 2026 MB AFKzona Group
+
+This product includes software developed by MB AFKzona Group
+(https://afkzonagroup.lt).
+
+Licensed under the Apache License, Version 2.0. See the LICENSE file.
+
+The files schema/source-rules.json, schema/statement-schema.json and the
+files generated from them describe the public interface of the European
+Commission's DSA Transparency Database (attribute names, allowed values and
+their labels, limits). These facts were taken from
+https://github.com/digital-services-act/transparency-database, which is
+published under the GNU General Public License v2.0. No code from that
+repository is included: only the interoperable attribute names, enumeration
+values and their labels, and limits needed to talk to the API. Rationale is
+not affiliated with or endorsed by the European Commission.

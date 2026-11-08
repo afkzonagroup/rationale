@@ -1,0 +1,81 @@
+{
+  "name": "@afkzona/rationale",
+  "version": "0.1.0",
+  "description": "SDK for submitting statements of reasons to the European Commission's DSA Transparency Database (Article 24(5) of the Digital Services Act): typed builder, validation mirroring the server rules, batch submission with retries, and a durable local queue.",
+  "license": "Apache-2.0",
+  "author": "MB AFKzona Group",
+  "homepage": "https://github.com/afkzonagroup/rationale#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afkzonagroup/rationale.git"
+  },
+  "bugs": {
+    "url": "https://github.com/afkzonagroup/rationale/issues"
+  },
+  "keywords": [
+    "dsa",
+    "digital-services-act",
+    "statement-of-reasons",
+    "transparency-database",
+    "article-17",
+    "article-24",
+    "content-moderation"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./node": {
+      "types": "./dist/node/index.d.ts",
+      "default": "./dist/node/index.js"
+    },
+    "./connectors": {
+      "types": "./dist/connectors/index.d.ts",
+      "default": "./dist/connectors/index.js"
+    },
+    "./schema.json": "./schema/statement-schema.json",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "rationale": "./dist/cli/bin.js"
+  },
+  "files": [
+    "dist",
+    "schema/statement-schema.json",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "TRADEMARKS.md",
+    "SECURITY.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "node scripts/clean.mjs && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "generate": "node scripts/generate.ts",
+    "schema:extract": "node scripts/extract-schema.mjs",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/express": "5.0.6",
+    "@types/node": "22.20.5",
+    "@vitest/coverage-v8": "4.1.12",
+    "eslint": "10.13.0",
+    "express": "5.3.0",
+    "fastify": "5.12.8",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0",
+    "vitest": "4.1.12"
+  }
+}

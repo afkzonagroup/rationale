@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "afkzona-rationale"
+version = "0.1.0"
+description = "Submit statements of reasons to the DSA Transparency Database (Article 24(5) of the Digital Services Act): validation mirroring the server rules, batch submission with retries, and a durable local queue. Pure Python, no dependencies."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "MB AFKzona Group" }]
+keywords = ["dsa", "digital-services-act", "statement-of-reasons", "transparency-database", "content-moderation"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/afkzonagroup/rationale"
+Issues = "https://github.com/afkzonagroup/rationale/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rationale = ["py.typed", "schema.json"]
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+files = ["src", "tests"]

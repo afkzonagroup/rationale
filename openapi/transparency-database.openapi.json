@@ -1,0 +1,839 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DSA Transparency Database: statement of reasons submission (unofficial description)",
+    "version": "2025-07-01+a3444a9c",
+    "description": "Derived by Rationale from the official source code (https://github.com/digital-services-act/transparency-database at a3444a9c5ae96640ff0978e92205c9c654909a37) and the API documentation (https://transparency.dsa.ec.europa.eu/page/api-documentation). The Commission does not publish an OpenAPI document; this file is not official."
+  },
+  "servers": [
+    {
+      "url": "https://transparency.dsa.ec.europa.eu",
+      "description": "Production. The sandbox host is given to each platform during onboarding."
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Statement": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "decision_facts",
+          "decision_ground",
+          "content_type",
+          "category",
+          "content_date",
+          "application_date",
+          "source_type",
+          "automated_detection",
+          "automated_decision",
+          "puid"
+        ],
+        "properties": {
+          "decision_visibility": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DECISION_VISIBILITY_CONTENT_REMOVED",
+                "DECISION_VISIBILITY_CONTENT_DISABLED",
+                "DECISION_VISIBILITY_CONTENT_DEMOTED",
+                "DECISION_VISIBILITY_CONTENT_AGE_RESTRICTED",
+                "DECISION_VISIBILITY_CONTENT_INTERACTION_RESTRICTED",
+                "DECISION_VISIBILITY_CONTENT_LABELLED",
+                "DECISION_VISIBILITY_OTHER"
+              ]
+            },
+            "description": "Decision visibility"
+          },
+          "decision_visibility_other": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Decision visibility other"
+          },
+          "decision_monetary": {
+            "type": "string",
+            "enum": [
+              "DECISION_MONETARY_SUSPENSION",
+              "DECISION_MONETARY_TERMINATION",
+              "DECISION_MONETARY_OTHER"
+            ],
+            "description": "Monetary payments suspension, termination or other restriction"
+          },
+          "decision_monetary_other": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Decision monetary other"
+          },
+          "decision_provision": {
+            "type": "string",
+            "enum": [
+              "DECISION_PROVISION_PARTIAL_SUSPENSION",
+              "DECISION_PROVISION_TOTAL_SUSPENSION",
+              "DECISION_PROVISION_PARTIAL_TERMINATION",
+              "DECISION_PROVISION_TOTAL_TERMINATION"
+            ],
+            "description": "Decision about the provisioning of the service"
+          },
+          "decision_account": {
+            "type": "string",
+            "enum": [
+              "DECISION_ACCOUNT_SUSPENDED",
+              "DECISION_ACCOUNT_TERMINATED"
+            ],
+            "description": "Decision about the account's status"
+          },
+          "account_type": {
+            "type": "string",
+            "enum": [
+              "ACCOUNT_TYPE_BUSINESS",
+              "ACCOUNT_TYPE_PRIVATE"
+            ],
+            "description": "Account type"
+          },
+          "decision_facts": {
+            "type": "string",
+            "maxLength": 5000,
+            "description": "Facts and circumstances relied on in taking the decision"
+          },
+          "decision_ground": {
+            "type": "string",
+            "enum": [
+              "DECISION_GROUND_ILLEGAL_CONTENT",
+              "DECISION_GROUND_INCOMPATIBLE_CONTENT"
+            ],
+            "description": "Decision grounds"
+          },
+          "decision_ground_reference_url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 500,
+            "description": "Decision ground reference URL"
+          },
+          "illegal_content_legal_ground": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Illegal content legal grounds"
+          },
+          "illegal_content_explanation": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Illegal content explanation"
+          },
+          "incompatible_content_ground": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Incompatible content grounds"
+          },
+          "incompatible_content_explanation": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Incompatible content explanation"
+          },
+          "incompatible_content_illegal": {
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No"
+            ],
+            "description": "Incompatible content illegal"
+          },
+          "content_type": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTENT_TYPE_APP",
+                "CONTENT_TYPE_AUDIO",
+                "CONTENT_TYPE_IMAGE",
+                "CONTENT_TYPE_PRODUCT",
+                "CONTENT_TYPE_SYNTHETIC_MEDIA",
+                "CONTENT_TYPE_TEXT",
+                "CONTENT_TYPE_VIDEO",
+                "CONTENT_TYPE_OTHER"
+              ]
+            },
+            "description": "Content type"
+          },
+          "content_type_other": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Content type other"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STATEMENT_CATEGORY_ANIMAL_WELFARE",
+              "STATEMENT_CATEGORY_CONSUMER_INFORMATION",
+              "STATEMENT_CATEGORY_CYBER_VIOLENCE",
+              "STATEMENT_CATEGORY_CYBER_VIOLENCE_AGAINST_WOMEN",
+              "STATEMENT_CATEGORY_DATA_PROTECTION_AND_PRIVACY_VIOLATIONS",
+              "STATEMENT_CATEGORY_ILLEGAL_OR_HARMFUL_SPEECH",
+              "STATEMENT_CATEGORY_INTELLECTUAL_PROPERTY_INFRINGEMENTS",
+              "STATEMENT_CATEGORY_NEGATIVE_EFFECTS_ON_CIVIC_DISCOURSE_OR_ELECTIONS",
+              "STATEMENT_CATEGORY_NOT_SPECIFIED_NOTICE",
+              "STATEMENT_CATEGORY_OTHER_VIOLATION_TC",
+              "STATEMENT_CATEGORY_PROTECTION_OF_MINORS",
+              "STATEMENT_CATEGORY_RISK_FOR_PUBLIC_SECURITY",
+              "STATEMENT_CATEGORY_SCAMS_AND_FRAUD",
+              "STATEMENT_CATEGORY_SELF_HARM",
+              "STATEMENT_CATEGORY_UNSAFE_AND_PROHIBITED_PRODUCTS",
+              "STATEMENT_CATEGORY_VIOLENCE"
+            ],
+            "description": "Category"
+          },
+          "category_addition": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "STATEMENT_CATEGORY_ANIMAL_WELFARE",
+                "STATEMENT_CATEGORY_CONSUMER_INFORMATION",
+                "STATEMENT_CATEGORY_CYBER_VIOLENCE",
+                "STATEMENT_CATEGORY_CYBER_VIOLENCE_AGAINST_WOMEN",
+                "STATEMENT_CATEGORY_DATA_PROTECTION_AND_PRIVACY_VIOLATIONS",
+                "STATEMENT_CATEGORY_ILLEGAL_OR_HARMFUL_SPEECH",
+                "STATEMENT_CATEGORY_INTELLECTUAL_PROPERTY_INFRINGEMENTS",
+                "STATEMENT_CATEGORY_NEGATIVE_EFFECTS_ON_CIVIC_DISCOURSE_OR_ELECTIONS",
+                "STATEMENT_CATEGORY_NOT_SPECIFIED_NOTICE",
+                "STATEMENT_CATEGORY_OTHER_VIOLATION_TC",
+                "STATEMENT_CATEGORY_PROTECTION_OF_MINORS",
+                "STATEMENT_CATEGORY_RISK_FOR_PUBLIC_SECURITY",
+                "STATEMENT_CATEGORY_SCAMS_AND_FRAUD",
+                "STATEMENT_CATEGORY_SELF_HARM",
+                "STATEMENT_CATEGORY_UNSAFE_AND_PROHIBITED_PRODUCTS",
+                "STATEMENT_CATEGORY_VIOLENCE"
+              ]
+            },
+            "description": "Additional categories"
+          },
+          "category_specification": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "KEYWORD_ADULT_SEXUAL_MATERIAL",
+                "KEYWORD_AGE_SPECIFIC_RESTRICTIONS",
+                "KEYWORD_AGE_SPECIFIC_RESTRICTIONS_MINORS",
+                "KEYWORD_ANIMAL_HARM",
+                "KEYWORD_BIOMETRIC_DATA_BREACH",
+                "KEYWORD_BULLYING_AGAINST_GIRLS",
+                "KEYWORD_CHILD_SEXUAL_ABUSE_MATERIAL",
+                "KEYWORD_CHILD_SEXUAL_ABUSE_MATERIAL_DEEPFAKE",
+                "KEYWORD_CONTENT_PROMOTING_EATING_DISORDERS",
+                "KEYWORD_COORDINATED_HARM",
+                "KEYWORD_COPYRIGHT_INFRINGEMENT",
+                "KEYWORD_CYBER_BULLYING_INTIMIDATION",
+                "KEYWORD_CYBER_HARASSMENT",
+                "KEYWORD_CYBER_HARASSMENT_AGAINST_WOMEN",
+                "KEYWORD_CYBER_INCITEMENT",
+                "KEYWORD_CYBER_STALKING",
+                "KEYWORD_CYBER_STALKING_AGAINST_WOMEN",
+                "KEYWORD_DATA_FALSIFICATION",
+                "KEYWORD_DEFAMATION",
+                "KEYWORD_DESIGN_INFRINGEMENT",
+                "KEYWORD_DISCRIMINATION",
+                "KEYWORD_FEMALE_GENDERED_DISINFORMATION",
+                "KEYWORD_GEOGRAPHIC_INDICATIONS_INFRINGEMENT",
+                "KEYWORD_GEOGRAPHICAL_REQUIREMENTS",
+                "KEYWORD_GOODS_SERVICES_NOT_PERMITTED",
+                "KEYWORD_GROOMING_SEXUAL_ENTICEMENT_MINORS",
+                "KEYWORD_HATE_SPEECH",
+                "KEYWORD_HIDDEN_ADVERTISEMENT",
+                "KEYWORD_HUMAN_EXPLOITATION",
+                "KEYWORD_HUMAN_TRAFFICKING",
+                "KEYWORD_ILLEGAL_ORGANIZATIONS",
+                "KEYWORD_IMPERSONATION_ACCOUNT_HIJACKING",
+                "KEYWORD_INAUTHENTIC_ACCOUNTS",
+                "KEYWORD_INAUTHENTIC_LISTINGS",
+                "KEYWORD_INAUTHENTIC_USER_REVIEWS",
+                "KEYWORD_INCITEMENT_AGAINST_WOMEN",
+                "KEYWORD_INCITEMENT_VIOLENCE_HATRED",
+                "KEYWORD_INSUFFICIENT_INFORMATION_ON_TRADERS",
+                "KEYWORD_LANGUAGE_REQUIREMENTS",
+                "KEYWORD_MISINFORMATION_DISINFORMATION",
+                "KEYWORD_MISLEADING_INFO_CONSUMER_RIGHTS",
+                "KEYWORD_MISLEADING_INFO_GOODS_SERVICES",
+                "KEYWORD_MISSING_PROCESSING_GROUND",
+                "KEYWORD_NON_CONSENSUAL_IMAGE_SHARING",
+                "KEYWORD_NON_CONSENSUAL_IMAGE_SHARING_AGAINST_WOMEN",
+                "KEYWORD_NON_CONSENSUAL_MATERIAL_DEEPFAKE",
+                "KEYWORD_NON_CONSENSUAL_MATERIAL_DEEPFAKE_AGAINST_WOMEN",
+                "KEYWORD_NONCOMPLIANCE_PRICING",
+                "KEYWORD_NUDITY",
+                "KEYWORD_PATENT_INFRINGEMENT",
+                "KEYWORD_PHISHING",
+                "KEYWORD_PROHIBITED_PRODUCTS",
+                "KEYWORD_PYRAMID_SCHEMES",
+                "KEYWORD_RIGHT_TO_BE_FORGOTTEN",
+                "KEYWORD_RISK_ENVIRONMENTAL_DAMAGE",
+                "KEYWORD_RISK_PUBLIC_HEALTH",
+                "KEYWORD_SELF_MUTILATION",
+                "KEYWORD_STALKING",
+                "KEYWORD_SUICIDE",
+                "KEYWORD_TERRORIST_CONTENT",
+                "KEYWORD_TRADE_SECRET_INFRINGEMENT",
+                "KEYWORD_TRADEMARK_INFRINGEMENT",
+                "KEYWORD_TRAFFICKING_WOMEN_GIRLS",
+                "KEYWORD_UNLAWFUL_SALE_ANIMALS",
+                "KEYWORD_UNSAFE_CHALLENGES",
+                "KEYWORD_UNSAFE_PRODUCTS",
+                "KEYWORD_VIOLATION_EU_LAW",
+                "KEYWORD_VIOLATION_NATIONAL_LAW",
+                "KEYWORD_OTHER"
+              ]
+            },
+            "description": "Category specification"
+          },
+          "category_specification_other": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Other keyword"
+          },
+          "content_id": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "EAN-13": {
+                "type": "string",
+                "pattern": "^[0-9]{13}$"
+              }
+            },
+            "description": "Content identifier"
+          },
+          "territorial_scope": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "AT",
+                "BE",
+                "BG",
+                "CY",
+                "CZ",
+                "DE",
+                "DK",
+                "EE",
+                "ES",
+                "FI",
+                "FR",
+                "GR",
+                "HR",
+                "HU",
+                "IE",
+                "IS",
+                "IT",
+                "LI",
+                "LT",
+                "LU",
+                "LV",
+                "MT",
+                "NL",
+                "NO",
+                "PL",
+                "PT",
+                "RO",
+                "SE",
+                "SI",
+                "SK"
+              ]
+            },
+            "description": "Territorial scope"
+          },
+          "content_language": {
+            "type": "string",
+            "enum": [
+              "AB",
+              "AA",
+              "AF",
+              "AK",
+              "SQ",
+              "AM",
+              "AR",
+              "AN",
+              "HY",
+              "AS",
+              "AV",
+              "AE",
+              "AY",
+              "AZ",
+              "BM",
+              "BA",
+              "EU",
+              "BE",
+              "BN",
+              "BH",
+              "BI",
+              "BS",
+              "BR",
+              "BG",
+              "MY",
+              "CA",
+              "KM",
+              "CH",
+              "CE",
+              "NY",
+              "ZH",
+              "CU",
+              "CV",
+              "KW",
+              "CO",
+              "CR",
+              "HR",
+              "CS",
+              "DA",
+              "DV",
+              "NL",
+              "DZ",
+              "EN",
+              "EO",
+              "ET",
+              "EE",
+              "FO",
+              "FJ",
+              "FI",
+              "FR",
+              "FF",
+              "GD",
+              "GL",
+              "LG",
+              "KA",
+              "DE",
+              "KI",
+              "EL",
+              "KL",
+              "GN",
+              "GU",
+              "HT",
+              "HA",
+              "HE",
+              "HZ",
+              "HI",
+              "HO",
+              "HU",
+              "IS",
+              "IO",
+              "IG",
+              "ID",
+              "IA",
+              "IE",
+              "IU",
+              "IK",
+              "GA",
+              "IT",
+              "JA",
+              "JV",
+              "KN",
+              "KR",
+              "KS",
+              "KK",
+              "RW",
+              "KV",
+              "KG",
+              "KO",
+              "KJ",
+              "KU",
+              "KY",
+              "LO",
+              "LA",
+              "LV",
+              "LB",
+              "LI",
+              "LN",
+              "LT",
+              "LU",
+              "MK",
+              "MG",
+              "MS",
+              "ML",
+              "MT",
+              "GV",
+              "MI",
+              "MR",
+              "MH",
+              "RO",
+              "MN",
+              "NA",
+              "NV",
+              "ND",
+              "NG",
+              "NE",
+              "SE",
+              "NO",
+              "NB",
+              "NN",
+              "II",
+              "OC",
+              "OJ",
+              "OR",
+              "OM",
+              "OS",
+              "PI",
+              "PA",
+              "PS",
+              "FA",
+              "PL",
+              "PT",
+              "QU",
+              "RM",
+              "RN",
+              "RU",
+              "SM",
+              "SG",
+              "SA",
+              "SC",
+              "SR",
+              "SN",
+              "SD",
+              "SI",
+              "SK",
+              "SL",
+              "SO",
+              "ST",
+              "NR",
+              "ES",
+              "SU",
+              "SW",
+              "SS",
+              "SV",
+              "TL",
+              "TY",
+              "TG",
+              "TA",
+              "TT",
+              "TE",
+              "TH",
+              "BO",
+              "TI",
+              "TO",
+              "TS",
+              "TN",
+              "TR",
+              "TK",
+              "TW",
+              "UG",
+              "UK",
+              "UR",
+              "UZ",
+              "VE",
+              "VI",
+              "VO",
+              "WA",
+              "CY",
+              "FY",
+              "WO",
+              "XH",
+              "YI",
+              "YO",
+              "ZA",
+              "ZU"
+            ],
+            "description": "Content language"
+          },
+          "content_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Content date"
+          },
+          "application_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Application date"
+          },
+          "end_date_account_restriction": {
+            "type": "string",
+            "format": "date",
+            "description": "End date of account restriction"
+          },
+          "end_date_monetary_restriction": {
+            "type": "string",
+            "format": "date",
+            "description": "End date of monetary restriction"
+          },
+          "end_date_service_restriction": {
+            "type": "string",
+            "format": "date",
+            "description": "End date of service restriction"
+          },
+          "end_date_visibility_restriction": {
+            "type": "string",
+            "format": "date",
+            "description": "End date of visibility restriction"
+          },
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "SOURCE_ARTICLE_16",
+              "SOURCE_TRUSTED_FLAGGER",
+              "SOURCE_TYPE_OTHER_NOTIFICATION",
+              "SOURCE_VOLUNTARY"
+            ],
+            "description": "Information source"
+          },
+          "source_identity": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Source identity"
+          },
+          "automated_detection": {
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No"
+            ],
+            "description": "Automated detection"
+          },
+          "automated_decision": {
+            "type": "string",
+            "enum": [
+              "AUTOMATED_DECISION_FULLY",
+              "AUTOMATED_DECISION_PARTIALLY",
+              "AUTOMATED_DECISION_NOT_AUTOMATED"
+            ],
+            "description": "Automated decision"
+          },
+          "puid": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Platform unique identifier",
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          }
+        }
+      },
+      "StatementCreated": {
+        "type": "object",
+        "required": [
+          "uuid",
+          "puid"
+        ],
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "puid": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "permalink": {
+            "type": "string"
+          },
+          "self": {
+            "type": "string"
+          },
+          "platform_name": {
+            "type": "string"
+          }
+        }
+      },
+      "StatementBatch": {
+        "type": "object",
+        "required": [
+          "statements"
+        ],
+        "properties": {
+          "statements": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/Statement"
+            }
+          }
+        }
+      },
+      "StatementBatchCreated": {
+        "type": "object",
+        "required": [
+          "statements"
+        ],
+        "properties": {
+          "statements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatementCreated"
+            }
+          }
+        }
+      },
+      "ErrorBody": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "existing": {
+            "type": "object",
+            "properties": {
+              "puid": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "PuidLookup": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "puid": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/statement": {
+      "post": {
+        "operationId": "createStatement",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Statement"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementCreated"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated"
+          },
+          "422": {
+            "description": "Validation error or PUID not unique",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit reached"
+          }
+        }
+      }
+    },
+    "/api/v1/statements": {
+      "post": {
+        "operationId": "createStatements",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatementBatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementBatchCreated"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated"
+          },
+          "422": {
+            "description": "Validation error (errors.statement_N) or PUIDs not unique (errors.existing_puids); nothing was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit reached"
+          }
+        }
+      }
+    },
+    "/api/v1/statement/existing-puid/{puid}": {
+      "get": {
+        "operationId": "existingPuid",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "puid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "A statement with this PUID exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PuidLookup"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No statement with this PUID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PuidLookup"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

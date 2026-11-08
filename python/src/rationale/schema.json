@@ -1,0 +1,1144 @@
+{
+  "$comment": "Statement of reasons schema of the DSA Transparency Database API, resolved by scripts/generate.ts from schema/source-rules.json and schema/attributes.json. Do not edit by hand.",
+  "schemaVersion": "2025-07-01+a3444a9c",
+  "schemaEffective": "2025-07-01",
+  "source": {
+    "repository": "https://github.com/digital-services-act/transparency-database",
+    "commit": "a3444a9c5ae96640ff0978e92205c9c654909a37",
+    "fetched": "2026-11-08",
+    "documentation": "https://transparency.dsa.ec.europa.eu/page/api-documentation",
+    "files": {
+      "app/Http/Requests/StatementStoreRequest.php": {
+        "sha256": "69794830ea3d856c9412fb7240eba4c74ce2db29da0b0074c2d8a5965fc9a4a5"
+      },
+      "app/Services/GroupedSubmissionsService.php": {
+        "sha256": "542296c79c7b4db68e58fc5260f85a0ccc8014938cf920c6b3746630e7e4ab06"
+      },
+      "app/Http/Controllers/Api/v1/StatementMultipleAPIController.php": {
+        "sha256": "5a87bab223706fc442de887b94d31d642ccfad2ec53cbdbdbb120e02dbafed96"
+      },
+      "app/Models/Statement.php": {
+        "sha256": "0e5e5bca59663463454ec0d6c418e1c006e98e6d9ead9702d17112a4a0dbd9a7"
+      },
+      "app/Services/EuropeanCountriesService.php": {
+        "sha256": "92f12063ccf829a552f267852d74c5860d7efe68238c99139c383e612491b70c"
+      },
+      "app/Services/EuropeanLanguagesService.php": {
+        "sha256": "2352c31354f655cd489e8e20f9b92e18b5db55857c2af94e56b5304840bfc211"
+      },
+      "routes/api_v1.php": {
+        "sha256": "b99a2553583eda59d06f93ac44d2f8ab5b5538d0766c26f94fdc3e5d97c84e25"
+      },
+      "app/Providers/RouteServiceProvider.php": {
+        "sha256": "5ccc47f867a6c5e9c830b56c6adef27bf8bbde5dbfccbed560fafadf31c34012"
+      },
+      "app/Http/Kernel.php": {
+        "sha256": "8beb15f27cecd3a44a1e4151954e7e5e0382e41a06fd54300d0bbd9eebf870e7"
+      },
+      "app/Services/PlatformUniqueIdService.php": {
+        "sha256": "0b09e5b9f376518a5121452f47a4f3d874210a63ea36f8bb079e372e35a5d957"
+      },
+      "app/Exceptions/PuidNotUniqueSingleException.php": {
+        "sha256": "7c9ff927e70574b88f3dbc0e848acbe2313ea6726033b493e85da84a93c3b29e"
+      },
+      "app/Exceptions/PuidNotUniqueMultipleException.php": {
+        "sha256": "cb31a10377067adfb5553bb591cfa9157f159c3edfed0ad6d2d8be0f6f4f9f97"
+      },
+      "resources/markdown/api-documentation.md": {
+        "sha256": "9263d1e2fd458e69b7abcdd1579c38307005478e743ba3d61a374dbe55ed9041"
+      }
+    }
+  },
+  "api": {
+    "productionBaseUrl": "https://transparency.dsa.ec.europa.eu",
+    "single": "/api/v1/statement",
+    "batch": "/api/v1/statements",
+    "existingPuid": "/api/v1/statement/existing-puid/{puid}",
+    "batchSize": {
+      "min": 1,
+      "max": 100
+    },
+    "rateLimits": {
+      "api": {
+        "perSecond": 200,
+        "perMinute": 12000
+      },
+      "apiMultiple": {
+        "perSecond": 4,
+        "perMinute": 240
+      }
+    },
+    "puidLockSeconds": 30
+  },
+  "trim": [
+    "0000",
+    "0009",
+    "000A",
+    "000B",
+    "000C",
+    "000D",
+    "0020",
+    "0085",
+    "00A0",
+    "00AD",
+    "034F",
+    "061C",
+    "115F",
+    "1160",
+    "1680",
+    "17B4",
+    "17B5",
+    "180E",
+    "2000",
+    "2001",
+    "2002",
+    "2003",
+    "2004",
+    "2005",
+    "2006",
+    "2007",
+    "2008",
+    "2009",
+    "200A",
+    "200B",
+    "200C",
+    "200D",
+    "200E",
+    "200F",
+    "2028",
+    "2029",
+    "202F",
+    "205F",
+    "2060",
+    "2061",
+    "2062",
+    "2063",
+    "2064",
+    "2065",
+    "206A",
+    "206B",
+    "206C",
+    "206D",
+    "206E",
+    "206F",
+    "2800",
+    "3000",
+    "3164",
+    "FEFF",
+    "FFA0",
+    "1D159",
+    "1D173",
+    "1D174",
+    "1D175",
+    "1D176",
+    "1D177",
+    "1D178",
+    "1D179",
+    "1D17A",
+    "E0020"
+  ],
+  "decisionGroup": [
+    "decision_visibility",
+    "decision_monetary",
+    "decision_provision",
+    "decision_account"
+  ],
+  "territorialPresets": {
+    "EU": [
+      "AT",
+      "BE",
+      "BG",
+      "CY",
+      "CZ",
+      "DE",
+      "DK",
+      "EE",
+      "ES",
+      "FI",
+      "FR",
+      "GR",
+      "HR",
+      "HU",
+      "IE",
+      "IT",
+      "LT",
+      "LU",
+      "LV",
+      "MT",
+      "NL",
+      "PL",
+      "PT",
+      "RO",
+      "SE",
+      "SI",
+      "SK"
+    ],
+    "EEA": [
+      "AT",
+      "BE",
+      "BG",
+      "CY",
+      "CZ",
+      "DE",
+      "DK",
+      "EE",
+      "ES",
+      "FI",
+      "FR",
+      "GR",
+      "HR",
+      "HU",
+      "IE",
+      "IS",
+      "IT",
+      "LI",
+      "LT",
+      "LU",
+      "LV",
+      "MT",
+      "NL",
+      "NO",
+      "PL",
+      "PT",
+      "RO",
+      "SE",
+      "SI",
+      "SK"
+    ]
+  },
+  "attributes": {
+    "decision_visibility": {
+      "kind": "enum-list",
+      "enum": "Statement::DECISION_VISIBILITIES",
+      "enumSource": "keys",
+      "label": "Decision visibility",
+      "law": [
+        "17(1)(a)",
+        "17(3)(a)"
+      ],
+      "values": [
+        "DECISION_VISIBILITY_CONTENT_REMOVED",
+        "DECISION_VISIBILITY_CONTENT_DISABLED",
+        "DECISION_VISIBILITY_CONTENT_DEMOTED",
+        "DECISION_VISIBILITY_CONTENT_AGE_RESTRICTED",
+        "DECISION_VISIBILITY_CONTENT_INTERACTION_RESTRICTED",
+        "DECISION_VISIBILITY_CONTENT_LABELLED",
+        "DECISION_VISIBILITY_OTHER"
+      ],
+      "labels": {
+        "DECISION_VISIBILITY_CONTENT_REMOVED": "Removal of content",
+        "DECISION_VISIBILITY_CONTENT_DISABLED": "Disabling access to content",
+        "DECISION_VISIBILITY_CONTENT_DEMOTED": "Demotion of content",
+        "DECISION_VISIBILITY_CONTENT_AGE_RESTRICTED": "Age restricted content",
+        "DECISION_VISIBILITY_CONTENT_INTERACTION_RESTRICTED": "Restricting interaction with content",
+        "DECISION_VISIBILITY_CONTENT_LABELLED": "Labelled content",
+        "DECISION_VISIBILITY_OTHER": "Other restriction (please specify)"
+      }
+    },
+    "decision_visibility_other": {
+      "kind": "text",
+      "max": 500,
+      "requiredWhen": {
+        "attribute": "decision_visibility",
+        "contains": "DECISION_VISIBILITY_OTHER"
+      },
+      "excludedUnless": {
+        "attribute": "decision_visibility",
+        "contains": "DECISION_VISIBILITY_OTHER"
+      },
+      "label": "Decision visibility other",
+      "law": [
+        "17(1)(a)",
+        "17(3)(a)"
+      ]
+    },
+    "decision_monetary": {
+      "kind": "enum",
+      "enum": "Statement::DECISION_MONETARIES",
+      "enumSource": "keys",
+      "label": "Monetary payments suspension, termination or other restriction",
+      "law": [
+        "17(1)(b)",
+        "17(3)(a)"
+      ],
+      "values": [
+        "DECISION_MONETARY_SUSPENSION",
+        "DECISION_MONETARY_TERMINATION",
+        "DECISION_MONETARY_OTHER"
+      ],
+      "labels": {
+        "DECISION_MONETARY_SUSPENSION": "Suspension of monetary payments",
+        "DECISION_MONETARY_TERMINATION": "Termination of monetary payments",
+        "DECISION_MONETARY_OTHER": "Other restriction (please specify)"
+      }
+    },
+    "decision_monetary_other": {
+      "kind": "text",
+      "max": 500,
+      "requiredWhen": {
+        "attribute": "decision_monetary",
+        "equals": "DECISION_MONETARY_OTHER"
+      },
+      "excludedUnless": {
+        "attribute": "decision_monetary",
+        "equals": "DECISION_MONETARY_OTHER"
+      },
+      "label": "Decision monetary other",
+      "law": [
+        "17(1)(b)",
+        "17(3)(a)"
+      ]
+    },
+    "decision_provision": {
+      "kind": "enum",
+      "enum": "Statement::DECISION_PROVISIONS",
+      "enumSource": "keys",
+      "label": "Decision about the provisioning of the service",
+      "law": [
+        "17(1)(c)",
+        "17(3)(a)"
+      ],
+      "values": [
+        "DECISION_PROVISION_PARTIAL_SUSPENSION",
+        "DECISION_PROVISION_TOTAL_SUSPENSION",
+        "DECISION_PROVISION_PARTIAL_TERMINATION",
+        "DECISION_PROVISION_TOTAL_TERMINATION"
+      ],
+      "labels": {
+        "DECISION_PROVISION_PARTIAL_SUSPENSION": "Partial suspension of the provision of the service",
+        "DECISION_PROVISION_TOTAL_SUSPENSION": "Total suspension of the provision of the service",
+        "DECISION_PROVISION_PARTIAL_TERMINATION": "Partial termination of the provision of the service",
+        "DECISION_PROVISION_TOTAL_TERMINATION": "Total termination of the provision of the service"
+      }
+    },
+    "decision_account": {
+      "kind": "enum",
+      "enum": "Statement::DECISION_ACCOUNTS",
+      "enumSource": "keys",
+      "label": "Decision about the account's status",
+      "law": [
+        "17(1)(d)",
+        "17(3)(a)"
+      ],
+      "values": [
+        "DECISION_ACCOUNT_SUSPENDED",
+        "DECISION_ACCOUNT_TERMINATED"
+      ],
+      "labels": {
+        "DECISION_ACCOUNT_SUSPENDED": "Suspension of the account",
+        "DECISION_ACCOUNT_TERMINATED": "Termination of the account"
+      }
+    },
+    "account_type": {
+      "kind": "enum",
+      "enum": "Statement::ACCOUNT_TYPES",
+      "enumSource": "keys",
+      "label": "Account type",
+      "law": [],
+      "values": [
+        "ACCOUNT_TYPE_BUSINESS",
+        "ACCOUNT_TYPE_PRIVATE"
+      ],
+      "labels": {
+        "ACCOUNT_TYPE_BUSINESS": "Business",
+        "ACCOUNT_TYPE_PRIVATE": "Private"
+      }
+    },
+    "decision_facts": {
+      "kind": "text",
+      "max": 5000,
+      "required": true,
+      "label": "Facts and circumstances relied on in taking the decision",
+      "law": [
+        "17(3)(b)"
+      ]
+    },
+    "decision_ground": {
+      "kind": "enum",
+      "enum": "Statement::DECISION_GROUNDS",
+      "enumSource": "keys",
+      "required": true,
+      "label": "Decision grounds",
+      "law": [
+        "17(1)",
+        "17(3)(d)",
+        "17(3)(e)"
+      ],
+      "values": [
+        "DECISION_GROUND_ILLEGAL_CONTENT",
+        "DECISION_GROUND_INCOMPATIBLE_CONTENT"
+      ],
+      "labels": {
+        "DECISION_GROUND_ILLEGAL_CONTENT": "Illegal content",
+        "DECISION_GROUND_INCOMPATIBLE_CONTENT": "Content incompatible with terms and conditions"
+      }
+    },
+    "decision_ground_reference_url": {
+      "kind": "url",
+      "max": 500,
+      "label": "Decision ground reference URL",
+      "law": [
+        "17(3)(d)",
+        "17(3)(e)"
+      ]
+    },
+    "illegal_content_legal_ground": {
+      "kind": "text",
+      "max": 500,
+      "requiredWhen": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_ILLEGAL_CONTENT"
+      },
+      "excludedUnless": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_ILLEGAL_CONTENT"
+      },
+      "label": "Illegal content legal grounds",
+      "law": [
+        "17(3)(d)"
+      ]
+    },
+    "illegal_content_explanation": {
+      "kind": "text",
+      "max": 2000,
+      "requiredWhen": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_ILLEGAL_CONTENT"
+      },
+      "excludedUnless": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_ILLEGAL_CONTENT"
+      },
+      "label": "Illegal content explanation",
+      "law": [
+        "17(3)(d)"
+      ]
+    },
+    "incompatible_content_ground": {
+      "kind": "text",
+      "max": 500,
+      "requiredWhen": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_INCOMPATIBLE_CONTENT"
+      },
+      "excludedUnless": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_INCOMPATIBLE_CONTENT"
+      },
+      "label": "Incompatible content grounds",
+      "law": [
+        "17(3)(e)"
+      ]
+    },
+    "incompatible_content_explanation": {
+      "kind": "text",
+      "max": 2000,
+      "requiredWhen": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_INCOMPATIBLE_CONTENT"
+      },
+      "excludedUnless": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_INCOMPATIBLE_CONTENT"
+      },
+      "label": "Incompatible content explanation",
+      "law": [
+        "17(3)(e)"
+      ]
+    },
+    "incompatible_content_illegal": {
+      "kind": "enum",
+      "enum": "Statement::INCOMPATIBLE_CONTENT_ILLEGALS",
+      "enumSource": "values",
+      "excludedUnless": {
+        "attribute": "decision_ground",
+        "equals": "DECISION_GROUND_INCOMPATIBLE_CONTENT"
+      },
+      "label": "Incompatible content illegal",
+      "law": [
+        "17(3)(d)",
+        "17(3)(e)"
+      ],
+      "values": [
+        "Yes",
+        "No"
+      ]
+    },
+    "content_type": {
+      "kind": "enum-list",
+      "enum": "Statement::CONTENT_TYPES",
+      "enumSource": "keys",
+      "required": true,
+      "label": "Content type",
+      "law": [
+        "17(4)"
+      ],
+      "values": [
+        "CONTENT_TYPE_APP",
+        "CONTENT_TYPE_AUDIO",
+        "CONTENT_TYPE_IMAGE",
+        "CONTENT_TYPE_PRODUCT",
+        "CONTENT_TYPE_SYNTHETIC_MEDIA",
+        "CONTENT_TYPE_TEXT",
+        "CONTENT_TYPE_VIDEO",
+        "CONTENT_TYPE_OTHER"
+      ],
+      "labels": {
+        "CONTENT_TYPE_APP": "App",
+        "CONTENT_TYPE_AUDIO": "Audio",
+        "CONTENT_TYPE_IMAGE": "Image",
+        "CONTENT_TYPE_PRODUCT": "Product",
+        "CONTENT_TYPE_SYNTHETIC_MEDIA": "Synthetic media",
+        "CONTENT_TYPE_TEXT": "Text",
+        "CONTENT_TYPE_VIDEO": "Video",
+        "CONTENT_TYPE_OTHER": "Other"
+      }
+    },
+    "content_type_other": {
+      "kind": "text",
+      "max": 500,
+      "requiredWhen": {
+        "attribute": "content_type",
+        "contains": "CONTENT_TYPE_OTHER"
+      },
+      "excludedUnless": {
+        "attribute": "content_type",
+        "contains": "CONTENT_TYPE_OTHER"
+      },
+      "label": "Content type other",
+      "law": [
+        "17(4)"
+      ]
+    },
+    "category": {
+      "kind": "enum",
+      "enum": "Statement::STATEMENT_CATEGORIES",
+      "enumSource": "keys",
+      "required": true,
+      "label": "Category",
+      "law": [],
+      "values": [
+        "STATEMENT_CATEGORY_ANIMAL_WELFARE",
+        "STATEMENT_CATEGORY_CONSUMER_INFORMATION",
+        "STATEMENT_CATEGORY_CYBER_VIOLENCE",
+        "STATEMENT_CATEGORY_CYBER_VIOLENCE_AGAINST_WOMEN",
+        "STATEMENT_CATEGORY_DATA_PROTECTION_AND_PRIVACY_VIOLATIONS",
+        "STATEMENT_CATEGORY_ILLEGAL_OR_HARMFUL_SPEECH",
+        "STATEMENT_CATEGORY_INTELLECTUAL_PROPERTY_INFRINGEMENTS",
+        "STATEMENT_CATEGORY_NEGATIVE_EFFECTS_ON_CIVIC_DISCOURSE_OR_ELECTIONS",
+        "STATEMENT_CATEGORY_NOT_SPECIFIED_NOTICE",
+        "STATEMENT_CATEGORY_OTHER_VIOLATION_TC",
+        "STATEMENT_CATEGORY_PROTECTION_OF_MINORS",
+        "STATEMENT_CATEGORY_RISK_FOR_PUBLIC_SECURITY",
+        "STATEMENT_CATEGORY_SCAMS_AND_FRAUD",
+        "STATEMENT_CATEGORY_SELF_HARM",
+        "STATEMENT_CATEGORY_UNSAFE_AND_PROHIBITED_PRODUCTS",
+        "STATEMENT_CATEGORY_VIOLENCE"
+      ],
+      "labels": {
+        "STATEMENT_CATEGORY_ANIMAL_WELFARE": "Animal welfare",
+        "STATEMENT_CATEGORY_CONSUMER_INFORMATION": "Consumer information infringements",
+        "STATEMENT_CATEGORY_CYBER_VIOLENCE": "Cyber violence",
+        "STATEMENT_CATEGORY_CYBER_VIOLENCE_AGAINST_WOMEN": "Cyber violence against women",
+        "STATEMENT_CATEGORY_DATA_PROTECTION_AND_PRIVACY_VIOLATIONS": "Data protection and privacy violations",
+        "STATEMENT_CATEGORY_ILLEGAL_OR_HARMFUL_SPEECH": "Illegal or harmful speech",
+        "STATEMENT_CATEGORY_INTELLECTUAL_PROPERTY_INFRINGEMENTS": "Intellectual property infringements",
+        "STATEMENT_CATEGORY_NEGATIVE_EFFECTS_ON_CIVIC_DISCOURSE_OR_ELECTIONS": "Negative effects on civic discourse or elections",
+        "STATEMENT_CATEGORY_NOT_SPECIFIED_NOTICE": "Type of alleged illegal content not specified by the notifier",
+        "STATEMENT_CATEGORY_OTHER_VIOLATION_TC": "Other violation of provider\u2019s terms and conditions",
+        "STATEMENT_CATEGORY_PROTECTION_OF_MINORS": "Protection of minors",
+        "STATEMENT_CATEGORY_RISK_FOR_PUBLIC_SECURITY": "Risk for public security",
+        "STATEMENT_CATEGORY_SCAMS_AND_FRAUD": "Scams and/or fraud",
+        "STATEMENT_CATEGORY_SELF_HARM": "Self-harm",
+        "STATEMENT_CATEGORY_UNSAFE_AND_PROHIBITED_PRODUCTS": "Unsafe, non-compliant or prohibited products",
+        "STATEMENT_CATEGORY_VIOLENCE": "Violence"
+      }
+    },
+    "category_addition": {
+      "kind": "enum-list",
+      "enum": "Statement::STATEMENT_CATEGORIES",
+      "enumSource": "keys",
+      "label": "Additional categories",
+      "law": [],
+      "values": [
+        "STATEMENT_CATEGORY_ANIMAL_WELFARE",
+        "STATEMENT_CATEGORY_CONSUMER_INFORMATION",
+        "STATEMENT_CATEGORY_CYBER_VIOLENCE",
+        "STATEMENT_CATEGORY_CYBER_VIOLENCE_AGAINST_WOMEN",
+        "STATEMENT_CATEGORY_DATA_PROTECTION_AND_PRIVACY_VIOLATIONS",
+        "STATEMENT_CATEGORY_ILLEGAL_OR_HARMFUL_SPEECH",
+        "STATEMENT_CATEGORY_INTELLECTUAL_PROPERTY_INFRINGEMENTS",
+        "STATEMENT_CATEGORY_NEGATIVE_EFFECTS_ON_CIVIC_DISCOURSE_OR_ELECTIONS",
+        "STATEMENT_CATEGORY_NOT_SPECIFIED_NOTICE",
+        "STATEMENT_CATEGORY_OTHER_VIOLATION_TC",
+        "STATEMENT_CATEGORY_PROTECTION_OF_MINORS",
+        "STATEMENT_CATEGORY_RISK_FOR_PUBLIC_SECURITY",
+        "STATEMENT_CATEGORY_SCAMS_AND_FRAUD",
+        "STATEMENT_CATEGORY_SELF_HARM",
+        "STATEMENT_CATEGORY_UNSAFE_AND_PROHIBITED_PRODUCTS",
+        "STATEMENT_CATEGORY_VIOLENCE"
+      ],
+      "labels": {
+        "STATEMENT_CATEGORY_ANIMAL_WELFARE": "Animal welfare",
+        "STATEMENT_CATEGORY_CONSUMER_INFORMATION": "Consumer information infringements",
+        "STATEMENT_CATEGORY_CYBER_VIOLENCE": "Cyber violence",
+        "STATEMENT_CATEGORY_CYBER_VIOLENCE_AGAINST_WOMEN": "Cyber violence against women",
+        "STATEMENT_CATEGORY_DATA_PROTECTION_AND_PRIVACY_VIOLATIONS": "Data protection and privacy violations",
+        "STATEMENT_CATEGORY_ILLEGAL_OR_HARMFUL_SPEECH": "Illegal or harmful speech",
+        "STATEMENT_CATEGORY_INTELLECTUAL_PROPERTY_INFRINGEMENTS": "Intellectual property infringements",
+        "STATEMENT_CATEGORY_NEGATIVE_EFFECTS_ON_CIVIC_DISCOURSE_OR_ELECTIONS": "Negative effects on civic discourse or elections",
+        "STATEMENT_CATEGORY_NOT_SPECIFIED_NOTICE": "Type of alleged illegal content not specified by the notifier",
+        "STATEMENT_CATEGORY_OTHER_VIOLATION_TC": "Other violation of provider\u2019s terms and conditions",
+        "STATEMENT_CATEGORY_PROTECTION_OF_MINORS": "Protection of minors",
+        "STATEMENT_CATEGORY_RISK_FOR_PUBLIC_SECURITY": "Risk for public security",
+        "STATEMENT_CATEGORY_SCAMS_AND_FRAUD": "Scams and/or fraud",
+        "STATEMENT_CATEGORY_SELF_HARM": "Self-harm",
+        "STATEMENT_CATEGORY_UNSAFE_AND_PROHIBITED_PRODUCTS": "Unsafe, non-compliant or prohibited products",
+        "STATEMENT_CATEGORY_VIOLENCE": "Violence"
+      }
+    },
+    "category_specification": {
+      "kind": "enum-list",
+      "enum": "Statement::KEYWORDS",
+      "enumSource": "keys",
+      "label": "Category specification",
+      "law": [],
+      "values": [
+        "KEYWORD_ADULT_SEXUAL_MATERIAL",
+        "KEYWORD_AGE_SPECIFIC_RESTRICTIONS",
+        "KEYWORD_AGE_SPECIFIC_RESTRICTIONS_MINORS",
+        "KEYWORD_ANIMAL_HARM",
+        "KEYWORD_BIOMETRIC_DATA_BREACH",
+        "KEYWORD_BULLYING_AGAINST_GIRLS",
+        "KEYWORD_CHILD_SEXUAL_ABUSE_MATERIAL",
+        "KEYWORD_CHILD_SEXUAL_ABUSE_MATERIAL_DEEPFAKE",
+        "KEYWORD_CONTENT_PROMOTING_EATING_DISORDERS",
+        "KEYWORD_COORDINATED_HARM",
+        "KEYWORD_COPYRIGHT_INFRINGEMENT",
+        "KEYWORD_CYBER_BULLYING_INTIMIDATION",
+        "KEYWORD_CYBER_HARASSMENT",
+        "KEYWORD_CYBER_HARASSMENT_AGAINST_WOMEN",
+        "KEYWORD_CYBER_INCITEMENT",
+        "KEYWORD_CYBER_STALKING",
+        "KEYWORD_CYBER_STALKING_AGAINST_WOMEN",
+        "KEYWORD_DATA_FALSIFICATION",
+        "KEYWORD_DEFAMATION",
+        "KEYWORD_DESIGN_INFRINGEMENT",
+        "KEYWORD_DISCRIMINATION",
+        "KEYWORD_FEMALE_GENDERED_DISINFORMATION",
+        "KEYWORD_GEOGRAPHIC_INDICATIONS_INFRINGEMENT",
+        "KEYWORD_GEOGRAPHICAL_REQUIREMENTS",
+        "KEYWORD_GOODS_SERVICES_NOT_PERMITTED",
+        "KEYWORD_GROOMING_SEXUAL_ENTICEMENT_MINORS",
+        "KEYWORD_HATE_SPEECH",
+        "KEYWORD_HIDDEN_ADVERTISEMENT",
+        "KEYWORD_HUMAN_EXPLOITATION",
+        "KEYWORD_HUMAN_TRAFFICKING",
+        "KEYWORD_ILLEGAL_ORGANIZATIONS",
+        "KEYWORD_IMPERSONATION_ACCOUNT_HIJACKING",
+        "KEYWORD_INAUTHENTIC_ACCOUNTS",
+        "KEYWORD_INAUTHENTIC_LISTINGS",
+        "KEYWORD_INAUTHENTIC_USER_REVIEWS",
+        "KEYWORD_INCITEMENT_AGAINST_WOMEN",
+        "KEYWORD_INCITEMENT_VIOLENCE_HATRED",
+        "KEYWORD_INSUFFICIENT_INFORMATION_ON_TRADERS",
+        "KEYWORD_LANGUAGE_REQUIREMENTS",
+        "KEYWORD_MISINFORMATION_DISINFORMATION",
+        "KEYWORD_MISLEADING_INFO_CONSUMER_RIGHTS",
+        "KEYWORD_MISLEADING_INFO_GOODS_SERVICES",
+        "KEYWORD_MISSING_PROCESSING_GROUND",
+        "KEYWORD_NON_CONSENSUAL_IMAGE_SHARING",
+        "KEYWORD_NON_CONSENSUAL_IMAGE_SHARING_AGAINST_WOMEN",
+        "KEYWORD_NON_CONSENSUAL_MATERIAL_DEEPFAKE",
+        "KEYWORD_NON_CONSENSUAL_MATERIAL_DEEPFAKE_AGAINST_WOMEN",
+        "KEYWORD_NONCOMPLIANCE_PRICING",
+        "KEYWORD_NUDITY",
+        "KEYWORD_PATENT_INFRINGEMENT",
+        "KEYWORD_PHISHING",
+        "KEYWORD_PROHIBITED_PRODUCTS",
+        "KEYWORD_PYRAMID_SCHEMES",
+        "KEYWORD_RIGHT_TO_BE_FORGOTTEN",
+        "KEYWORD_RISK_ENVIRONMENTAL_DAMAGE",
+        "KEYWORD_RISK_PUBLIC_HEALTH",
+        "KEYWORD_SELF_MUTILATION",
+        "KEYWORD_STALKING",
+        "KEYWORD_SUICIDE",
+        "KEYWORD_TERRORIST_CONTENT",
+        "KEYWORD_TRADE_SECRET_INFRINGEMENT",
+        "KEYWORD_TRADEMARK_INFRINGEMENT",
+        "KEYWORD_TRAFFICKING_WOMEN_GIRLS",
+        "KEYWORD_UNLAWFUL_SALE_ANIMALS",
+        "KEYWORD_UNSAFE_CHALLENGES",
+        "KEYWORD_UNSAFE_PRODUCTS",
+        "KEYWORD_VIOLATION_EU_LAW",
+        "KEYWORD_VIOLATION_NATIONAL_LAW",
+        "KEYWORD_OTHER"
+      ],
+      "labels": {
+        "KEYWORD_ADULT_SEXUAL_MATERIAL": "Adult sexual material",
+        "KEYWORD_AGE_SPECIFIC_RESTRICTIONS": "Age-specific restrictions",
+        "KEYWORD_AGE_SPECIFIC_RESTRICTIONS_MINORS": "Age-specific restrictions concerning minors",
+        "KEYWORD_ANIMAL_HARM": "Animal harm",
+        "KEYWORD_BIOMETRIC_DATA_BREACH": "Biometric data breach",
+        "KEYWORD_BULLYING_AGAINST_GIRLS": "Cyber bullying and intimidation against girls",
+        "KEYWORD_CHILD_SEXUAL_ABUSE_MATERIAL": "Child sexual abuse material",
+        "KEYWORD_CHILD_SEXUAL_ABUSE_MATERIAL_DEEPFAKE": "Child sexual abuse material containing deepfake or similar technology",
+        "KEYWORD_CONTENT_PROMOTING_EATING_DISORDERS": "Content promoting eating disorders",
+        "KEYWORD_COORDINATED_HARM": "Coordinated harm",
+        "KEYWORD_COPYRIGHT_INFRINGEMENT": "Copyright infringements",
+        "KEYWORD_CYBER_BULLYING_INTIMIDATION": "Cyber bullying and intimidation",
+        "KEYWORD_CYBER_HARASSMENT": "Cyber harassment",
+        "KEYWORD_CYBER_HARASSMENT_AGAINST_WOMEN": "Cyber harassment against women",
+        "KEYWORD_CYBER_INCITEMENT": "Cyber incitement to hatred or violence",
+        "KEYWORD_CYBER_STALKING": "Cyber stalking",
+        "KEYWORD_CYBER_STALKING_AGAINST_WOMEN": "Cyber stalking against women",
+        "KEYWORD_DATA_FALSIFICATION": "Data falsification",
+        "KEYWORD_DEFAMATION": "Defamation",
+        "KEYWORD_DESIGN_INFRINGEMENT": "Design infringements",
+        "KEYWORD_DISCRIMINATION": "Discrimination",
+        "KEYWORD_FEMALE_GENDERED_DISINFORMATION": "Gendered disinformation",
+        "KEYWORD_GEOGRAPHIC_INDICATIONS_INFRINGEMENT": "Geographic indications infringements",
+        "KEYWORD_GEOGRAPHICAL_REQUIREMENTS": "Geographical requirements",
+        "KEYWORD_GOODS_SERVICES_NOT_PERMITTED": "Goods/services not permitted to be offered on the platform",
+        "KEYWORD_GROOMING_SEXUAL_ENTICEMENT_MINORS": "Grooming/sexual enticement of minors",
+        "KEYWORD_HATE_SPEECH": "Illegal incitement to violence and hatred based on protected characteristics (hate speech)",
+        "KEYWORD_HIDDEN_ADVERTISEMENT": "Hidden advertisement or commercial communication, including by influencers",
+        "KEYWORD_HUMAN_EXPLOITATION": "Human exploitation",
+        "KEYWORD_HUMAN_TRAFFICKING": "Human trafficking",
+        "KEYWORD_ILLEGAL_ORGANIZATIONS": "Illegal organizations",
+        "KEYWORD_IMPERSONATION_ACCOUNT_HIJACKING": "Impersonation or account hijacking",
+        "KEYWORD_INAUTHENTIC_ACCOUNTS": "Inauthentic accounts",
+        "KEYWORD_INAUTHENTIC_LISTINGS": "Inauthentic listings",
+        "KEYWORD_INAUTHENTIC_USER_REVIEWS": "Inauthentic user reviews",
+        "KEYWORD_INCITEMENT_AGAINST_WOMEN": "Illegal incitement to violence and hatred against women",
+        "KEYWORD_INCITEMENT_VIOLENCE_HATRED": "General calls or incitement to violence and/or hatred",
+        "KEYWORD_INSUFFICIENT_INFORMATION_ON_TRADERS": "Insufficient information on traders",
+        "KEYWORD_LANGUAGE_REQUIREMENTS": "Language requirements",
+        "KEYWORD_MISINFORMATION_DISINFORMATION": "Misinformation, disinformation, foreign information manipulation and interference",
+        "KEYWORD_MISLEADING_INFO_CONSUMER_RIGHTS": "Misleading information about the consumer's rights",
+        "KEYWORD_MISLEADING_INFO_GOODS_SERVICES": "Misleading information about the characteristics of the goods and services",
+        "KEYWORD_MISSING_PROCESSING_GROUND": "Missing processing ground for data",
+        "KEYWORD_NON_CONSENSUAL_IMAGE_SHARING": "Non-consensual (intimate) material sharing, including (image-based) sexual abuse (excluding content depicting minors)",
+        "KEYWORD_NON_CONSENSUAL_IMAGE_SHARING_AGAINST_WOMEN": "Non-consensual (intimate) material sharing against women, including (image-based) sexual abuse against women (excluding content depicting minors)",
+        "KEYWORD_NON_CONSENSUAL_MATERIAL_DEEPFAKE": "Non-consensual sharing of material containing deepfake or similar technology using a third party's features (excluding content depicting minors)",
+        "KEYWORD_NON_CONSENSUAL_MATERIAL_DEEPFAKE_AGAINST_WOMEN": "Non-consensual sharing of material containing deepfake or similar technology using a third party's features against women (excluding content depicting minors)",
+        "KEYWORD_NONCOMPLIANCE_PRICING": "Non-compliance with pricing regulations",
+        "KEYWORD_NUDITY": "Nudity",
+        "KEYWORD_PATENT_INFRINGEMENT": "Patent infringements",
+        "KEYWORD_PHISHING": "Phishing",
+        "KEYWORD_PROHIBITED_PRODUCTS": "Prohibited or restricted products",
+        "KEYWORD_PYRAMID_SCHEMES": "Pyramid schemes",
+        "KEYWORD_RIGHT_TO_BE_FORGOTTEN": "Right to be forgotten",
+        "KEYWORD_RISK_ENVIRONMENTAL_DAMAGE": "Risk for environmental damage",
+        "KEYWORD_RISK_PUBLIC_HEALTH": "Risk for public health",
+        "KEYWORD_SELF_MUTILATION": "Self-mutilation",
+        "KEYWORD_STALKING": "Stalking",
+        "KEYWORD_SUICIDE": "Suicide",
+        "KEYWORD_TERRORIST_CONTENT": "Terrorist content",
+        "KEYWORD_TRADE_SECRET_INFRINGEMENT": "Trade secret infringements",
+        "KEYWORD_TRADEMARK_INFRINGEMENT": "Trademark infringements",
+        "KEYWORD_TRAFFICKING_WOMEN_GIRLS": "Trafficking in women and girls",
+        "KEYWORD_UNLAWFUL_SALE_ANIMALS": "Unlawful sale of animals",
+        "KEYWORD_UNSAFE_CHALLENGES": "Unsafe challenges",
+        "KEYWORD_UNSAFE_PRODUCTS": "Unsafe or non-compliant products",
+        "KEYWORD_VIOLATION_EU_LAW": "Violation of EU law relevant to civic discourse or elections",
+        "KEYWORD_VIOLATION_NATIONAL_LAW": "Violation of national law relevant to civic discourse or elections",
+        "KEYWORD_OTHER": "Not captured by any other keyword"
+      }
+    },
+    "category_specification_other": {
+      "kind": "text",
+      "max": 500,
+      "excludedUnless": {
+        "attribute": "category_specification",
+        "contains": "KEYWORD_OTHER"
+      },
+      "excludedUnlessEndpoint": "multi",
+      "label": "Other keyword",
+      "law": []
+    },
+    "content_id": {
+      "kind": "content-id",
+      "keys": {
+        "EAN-13": {
+          "pattern": "^[0-9]{13}$"
+        }
+      },
+      "label": "Content identifier",
+      "law": [
+        "17(4)"
+      ]
+    },
+    "territorial_scope": {
+      "kind": "enum-list",
+      "enum": "EuropeanCountriesService::EUROPEAN_COUNTRY_CODES",
+      "enumSource": "values",
+      "label": "Territorial scope",
+      "law": [
+        "17(3)(a)"
+      ],
+      "values": [
+        "AT",
+        "BE",
+        "BG",
+        "CY",
+        "CZ",
+        "DE",
+        "DK",
+        "EE",
+        "ES",
+        "FI",
+        "FR",
+        "GR",
+        "HR",
+        "HU",
+        "IE",
+        "IS",
+        "IT",
+        "LI",
+        "LT",
+        "LU",
+        "LV",
+        "MT",
+        "NL",
+        "NO",
+        "PL",
+        "PT",
+        "RO",
+        "SE",
+        "SI",
+        "SK"
+      ]
+    },
+    "content_language": {
+      "kind": "enum",
+      "enum": "EuropeanLanguagesService::ALL_LANGUAGES",
+      "enumSource": "values",
+      "label": "Content language",
+      "law": [
+        "17(4)"
+      ],
+      "values": [
+        "AB",
+        "AA",
+        "AF",
+        "AK",
+        "SQ",
+        "AM",
+        "AR",
+        "AN",
+        "HY",
+        "AS",
+        "AV",
+        "AE",
+        "AY",
+        "AZ",
+        "BM",
+        "BA",
+        "EU",
+        "BE",
+        "BN",
+        "BH",
+        "BI",
+        "BS",
+        "BR",
+        "BG",
+        "MY",
+        "CA",
+        "KM",
+        "CH",
+        "CE",
+        "NY",
+        "ZH",
+        "CU",
+        "CV",
+        "KW",
+        "CO",
+        "CR",
+        "HR",
+        "CS",
+        "DA",
+        "DV",
+        "NL",
+        "DZ",
+        "EN",
+        "EO",
+        "ET",
+        "EE",
+        "FO",
+        "FJ",
+        "FI",
+        "FR",
+        "FF",
+        "GD",
+        "GL",
+        "LG",
+        "KA",
+        "DE",
+        "KI",
+        "EL",
+        "KL",
+        "GN",
+        "GU",
+        "HT",
+        "HA",
+        "HE",
+        "HZ",
+        "HI",
+        "HO",
+        "HU",
+        "IS",
+        "IO",
+        "IG",
+        "ID",
+        "IA",
+        "IE",
+        "IU",
+        "IK",
+        "GA",
+        "IT",
+        "JA",
+        "JV",
+        "KN",
+        "KR",
+        "KS",
+        "KK",
+        "RW",
+        "KV",
+        "KG",
+        "KO",
+        "KJ",
+        "KU",
+        "KY",
+        "LO",
+        "LA",
+        "LV",
+        "LB",
+        "LI",
+        "LN",
+        "LT",
+        "LU",
+        "MK",
+        "MG",
+        "MS",
+        "ML",
+        "MT",
+        "GV",
+        "MI",
+        "MR",
+        "MH",
+        "RO",
+        "MN",
+        "NA",
+        "NV",
+        "ND",
+        "NG",
+        "NE",
+        "SE",
+        "NO",
+        "NB",
+        "NN",
+        "II",
+        "OC",
+        "OJ",
+        "OR",
+        "OM",
+        "OS",
+        "PI",
+        "PA",
+        "PS",
+        "FA",
+        "PL",
+        "PT",
+        "QU",
+        "RM",
+        "RN",
+        "RU",
+        "SM",
+        "SG",
+        "SA",
+        "SC",
+        "SR",
+        "SN",
+        "SD",
+        "SI",
+        "SK",
+        "SL",
+        "SO",
+        "ST",
+        "NR",
+        "ES",
+        "SU",
+        "SW",
+        "SS",
+        "SV",
+        "TL",
+        "TY",
+        "TG",
+        "TA",
+        "TT",
+        "TE",
+        "TH",
+        "BO",
+        "TI",
+        "TO",
+        "TS",
+        "TN",
+        "TR",
+        "TK",
+        "TW",
+        "UG",
+        "UK",
+        "UR",
+        "UZ",
+        "VE",
+        "VI",
+        "VO",
+        "WA",
+        "CY",
+        "FY",
+        "WO",
+        "XH",
+        "YI",
+        "YO",
+        "ZA",
+        "ZU"
+      ]
+    },
+    "content_date": {
+      "kind": "date",
+      "required": true,
+      "earliest": "2000-01-01",
+      "latest": "2038-01-01",
+      "label": "Content date",
+      "law": [
+        "17(4)"
+      ]
+    },
+    "application_date": {
+      "kind": "date",
+      "required": true,
+      "earliest": "2020-01-01",
+      "latest": "2038-01-01",
+      "label": "Application date",
+      "law": [
+        "17(2)",
+        "17(3)(a)"
+      ]
+    },
+    "end_date_account_restriction": {
+      "kind": "date",
+      "latest": "2038-01-01",
+      "label": "End date of account restriction",
+      "law": [
+        "17(3)(a)"
+      ]
+    },
+    "end_date_monetary_restriction": {
+      "kind": "date",
+      "latest": "2038-01-01",
+      "label": "End date of monetary restriction",
+      "law": [
+        "17(3)(a)"
+      ]
+    },
+    "end_date_service_restriction": {
+      "kind": "date",
+      "latest": "2038-01-01",
+      "label": "End date of service restriction",
+      "law": [
+        "17(3)(a)"
+      ]
+    },
+    "end_date_visibility_restriction": {
+      "kind": "date",
+      "latest": "2038-01-01",
+      "label": "End date of visibility restriction",
+      "law": [
+        "17(3)(a)"
+      ]
+    },
+    "source_type": {
+      "kind": "enum",
+      "enum": "Statement::SOURCE_TYPES",
+      "enumSource": "keys",
+      "required": true,
+      "label": "Information source",
+      "law": [
+        "17(3)(b)"
+      ],
+      "values": [
+        "SOURCE_ARTICLE_16",
+        "SOURCE_TRUSTED_FLAGGER",
+        "SOURCE_TYPE_OTHER_NOTIFICATION",
+        "SOURCE_VOLUNTARY"
+      ],
+      "labels": {
+        "SOURCE_ARTICLE_16": "Notice submitted in accordance with Article 16 DSA",
+        "SOURCE_TRUSTED_FLAGGER": "Notice submitted by a trusted flagger",
+        "SOURCE_TYPE_OTHER_NOTIFICATION": "Other type of notification",
+        "SOURCE_VOLUNTARY": "Own voluntary initiative"
+      }
+    },
+    "source_identity": {
+      "kind": "text",
+      "max": 500,
+      "excludedWhen": {
+        "attribute": "source_type",
+        "equals": "SOURCE_VOLUNTARY"
+      },
+      "label": "Source identity",
+      "law": [
+        "17(3)(b)"
+      ]
+    },
+    "automated_detection": {
+      "kind": "enum",
+      "enum": "Statement::AUTOMATED_DETECTIONS",
+      "enumSource": "values",
+      "required": true,
+      "label": "Automated detection",
+      "law": [
+        "17(3)(c)"
+      ],
+      "values": [
+        "Yes",
+        "No"
+      ]
+    },
+    "automated_decision": {
+      "kind": "enum",
+      "enum": "Statement::AUTOMATED_DECISIONS",
+      "enumSource": "keys",
+      "required": true,
+      "label": "Automated decision",
+      "law": [
+        "17(3)(c)"
+      ],
+      "values": [
+        "AUTOMATED_DECISION_FULLY",
+        "AUTOMATED_DECISION_PARTIALLY",
+        "AUTOMATED_DECISION_NOT_AUTOMATED"
+      ],
+      "labels": {
+        "AUTOMATED_DECISION_FULLY": "Fully automated",
+        "AUTOMATED_DECISION_PARTIALLY": "Partially automated",
+        "AUTOMATED_DECISION_NOT_AUTOMATED": "Not automated"
+      }
+    },
+    "puid": {
+      "kind": "text",
+      "max": 500,
+      "required": true,
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "label": "Platform unique identifier",
+      "law": [
+        "24(5)"
+      ]
+    }
+  },
+  "notAccepted": {
+    "content_id_ean": "Accepted by the single-statement endpoint only (StatementStoreRequest) and not documented; the batch endpoint drops it. Use content_id with the EAN-13 key, which both endpoints accept.",
+    "content_language_other": "Mentioned on the 'additional explanation' page but not part of the validation rules; the server drops it."
+  }
+}

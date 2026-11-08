@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-check/
+coverage/
+*.tgz
+.DS_Store
+.venv/
+python/.venv/
+__pycache__/
+*.pyc
+.mypy_cache/
+python/build/
+python/*.egg-info/
+python/src/*.egg-info/
